@@ -51,7 +51,7 @@ Articles mentioning these topics receive higher priority:
 
    **Required:**
    - `NEWSAPI_KEY` = Your NewsAPI key
-   - `RECIPIENT_EMAIL` = huangwing666@gmail.com
+   - `RECIPIENT_EMAIL` = your-email@gmail.com
 
    **For SendGrid (Recommended):**
    - `SENDGRID_API_KEY` = Your SendGrid API key
