@@ -129,10 +129,10 @@ EMAIL_CONFIG = {
     'articles_per_category': 2
 }
 
-# Time Configuration
+# Time Configuration (US Eastern Time)
 TIME_CONFIG = {
-    'timezone': 'Asia/Shanghai',  # UTC+8
-    'send_time': '09:00',  # 9 AM
+    'timezone': 'America/New_York',  # US Eastern Time
+    'send_time': '09:00',  # 9 AM EST/EDT
     'look_back_hours': 24  # Fetch news from last 24 hours
 }
 
