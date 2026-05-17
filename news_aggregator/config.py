@@ -138,7 +138,7 @@ TIME_CONFIG = {
 
 # Article Filtering
 ARTICLE_FILTERS = {
-    'min_word_count': 50,
+    'min_word_count': 5,
     'exclude_keywords': ['advertisement', 'sponsored', 'press release'],
     'required_fields': ['title', 'description', 'url', 'source']
 }
