@@ -5,7 +5,7 @@ from typing import List, Dict, Optional
 import logging
 from config import (
     NEWSAPI_KEY, NEWS_SOURCES, TIME_CONFIG, 
-    ARTICLE_FILTERS, PRIORITY_TOPICS, CATEGORIES
+    ARTICLE_FILTERS, PRIORITY_TOPICS, CATEGORIES, CATEGORY_ARTICLE_COUNT
 )
 
 logging.basicConfig(
@@ -242,3 +242,61 @@ class NewsFetcher:
         
         logger.info(f"Articles ranked. Top article score: {ranked[0]['priority_score'] if ranked else 0}")
         return ranked
+    
+    def allocate_by_category(self, articles: Optional[List[Dict]] = None) -> List[Dict]:
+        """
+        Allocate articles by category based on CATEGORY_ARTICLE_COUNT config
+        Returns articles distributed according to category allocation rules
+        """
+        if articles is None:
+            articles = self.rank_articles(self.articles)
+        else:
+            articles = self.rank_articles(articles)
+        
+        logger.info("\n📊 Allocating articles by category...")
+        logger.info(f"Category allocation: {CATEGORY_ARTICLE_COUNT}")
+        
+        # Group articles by category
+        articles_by_category = {}
+        for article in articles:
+            category = article['category']
+            if category not in articles_by_category:
+                articles_by_category[category] = []
+            articles_by_category[category].append(article)
+        
+        logger.info(f"Articles available by category: {
+            {cat: len(arts) for cat, arts in articles_by_category.items()}
+        }")
+        
+        # Allocate articles according to config
+        allocated_articles = []
+        
+        # First, allocate for specified categories
+        for category, count in CATEGORY_ARTICLE_COUNT.items():
+            if category != 'Other':
+                if category in articles_by_category:
+                    allocated = articles_by_category[category][:count]
+                    allocated_articles.extend(allocated)
+                    logger.info(f"✓ {category}: {len(allocated)} articles")
+        
+        # Then, allocate 'Other' category from remaining articles
+        if 'Other' in CATEGORY_ARTICLE_COUNT:
+            other_count = CATEGORY_ARTICLE_COUNT['Other']
+            remaining_articles = []
+            
+            # Collect articles from categories not explicitly specified
+            for category, articles_list in articles_by_category.items():
+                if category not in CATEGORY_ARTICLE_COUNT or category == 'Other':
+                    remaining_articles.extend(articles_list)
+            
+            # Re-rank remaining articles by priority score
+            remaining_articles.sort(key=lambda x: x['priority_score'], reverse=True)
+            allocated = remaining_articles[:other_count]
+            allocated_articles.extend(allocated)
+            logger.info(f"✓ Other categories: {len(allocated)} articles")
+        
+        # Re-rank all allocated articles by priority score for final ordering
+        allocated_articles.sort(key=lambda x: x['priority_score'], reverse=True)
+        
+        logger.info(f"Total allocated articles: {len(allocated_articles)}")
+        return allocated_articles
