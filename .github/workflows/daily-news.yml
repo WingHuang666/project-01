@@ -29,4 +29,4 @@ jobs:
           RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
           SMTP_SERVER: smtp.gmail.com
           SMTP_PORT: 587
-        run: python -m news_aggregator
+        run: python news_aggregator/main.py
