@@ -14,23 +14,9 @@ NEWS_SOURCES = {
         'api_key': NEWSAPI_KEY,
         'endpoints': [
             {
-                'name': 'AI News',
-                'query': 'artificial intelligence OR machine learning OR deep learning',
-                'category': 'Artificial Intelligence',
-                'language': 'en',
-                'sort_by': 'relevancy'
-            },
-            {
                 'name': 'Tech News',
                 'query': 'technology OR software OR tech startups',
                 'category': 'Technology',
-                'language': 'en',
-                'sort_by': 'relevancy'
-            },
-            {
-                'name': 'Science News',
-                'query': 'science OR research OR breakthrough',
-                'category': 'Science',
                 'language': 'en',
                 'sort_by': 'relevancy'
             },
@@ -47,17 +33,19 @@ NEWS_SOURCES = {
                 'category': 'Global Politics',
                 'language': 'en',
                 'sort_by': 'relevancy'
+            },
+            {
+                'name': 'Science News',
+                'query': 'science OR research OR breakthrough',
+                'category': 'Science',
+                'language': 'en',
+                'sort_by': 'relevancy'
             }
         ]
     },
     'rss': {
         'enabled': True,
         'sources': [
-            {
-                'name': 'Google News - AI',
-                'url': 'https://news.google.com/rss/search?q=artificial%20intelligence&hl=en-US&gl=US&ceid=US:en',
-                'category': 'Artificial Intelligence'
-            },
             {
                 'name': 'Google News - Technology',
                 'url': 'https://news.google.com/rss/search?q=technology&hl=en-US&gl=US&ceid=US:en',
@@ -69,11 +57,6 @@ NEWS_SOURCES = {
                 'category': 'Technology'
             },
             {
-                'name': 'Reuters Technology',
-                'url': 'https://www.reuters.com/technology',
-                'category': 'Technology'
-            },
-            {
                 'name': 'Reuters Business',
                 'url': 'https://www.reuters.com/business',
                 'category': 'Business & Economy'
@@ -82,6 +65,11 @@ NEWS_SOURCES = {
                 'name': 'Reuters World',
                 'url': 'https://www.reuters.com/world',
                 'category': 'Global Politics'
+            },
+            {
+                'name': 'Reuters Technology',
+                'url': 'https://www.reuters.com/technology',
+                'category': 'Technology'
             }
         ]
     }
@@ -112,21 +100,25 @@ PRIORITY_TOPICS = {
 
 # Categories
 CATEGORIES = [
-    'Artificial Intelligence',
     'Technology',
-    'Science',
     'Business & Economy',
-    'Global Politics'
+    'Global Politics',
+    'Science'
 ]
 
-# Email Configuration
+# Email Configuration - 改成按类别分配文章数量
 EMAIL_CONFIG = {
     'sender_email': 'noreply@github.com',
     'sender_name': 'Daily Tech News Digest',
     'subject_template': 'Daily Tech News Digest - {date}',
     'recipient_email': RECIPIENT_EMAIL,
     'max_articles': 10,
-    'articles_per_category': 2
+    'articles_per_category': {
+        'Technology': 3,
+        'Business & Economy': 3,
+        'Global Politics': 3,
+        'Science': 1  # 随意其他类型
+    }
 }
 
 # Time Configuration (US Eastern Time)
