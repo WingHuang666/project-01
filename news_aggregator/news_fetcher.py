@@ -264,9 +264,10 @@ class NewsFetcher:
                 articles_by_category[category] = []
             articles_by_category[category].append(article)
         
-        logger.info(f"Articles available by category: {
-            {cat: len(arts) for cat, arts in articles_by_category.items()}
-        }")
+        logger.info(
+            f"Articles available by category: "
+            f"{ {cat: len(arts) for cat, arts in articles_by_category.items()} }"
+        )
         
         # Allocate articles according to config
         allocated_articles = []
