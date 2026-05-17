@@ -42,22 +42,26 @@ def main():
         
         logger.info(f"Total articles fetched: {len(articles)}")
         
-        # Rank articles
-        logger.info("\n🎯 Ranking articles by priority...")
-        ranked_articles = fetcher.rank_articles(articles)
+        # Select articles based on configuration
+        if EMAIL_CONFIG.get('use_category_allocation', False):
+            # Use category-based allocation
+            logger.info("\n🎯 Using category-based allocation...")
+            digest_articles = fetcher.allocate_by_category(articles)
+        else:
+            # Use traditional ranking method
+            logger.info("\n🎯 Ranking articles by priority...")
+            ranked_articles = fetcher.rank_articles(articles)
+            max_articles = EMAIL_CONFIG.get('max_articles', 10)
+            digest_articles = ranked_articles[:max_articles]
         
-        # Log top articles
-        logger.info("\nTop 10 Articles:")
+        # Log selected articles
+        logger.info("\nSelected Articles for Digest:")
         logger.info("-" * 60)
-        for idx, article in enumerate(ranked_articles[:10], 1):
+        for idx, article in enumerate(digest_articles, 1):
             logger.info(f"{idx}. [{article['category']}] {article['title']}")
             logger.info(f"   Source: {article['source']}")
-            logger.info(f"   Priority Score: {article['priority_score']}")
+            logger.info(f"   Priority Score: {article.get('priority_score', 'N/A')}")
             logger.info("-" * 60)
-        
-        # Select top articles for digest
-        max_articles = EMAIL_CONFIG.get('max_articles', 10)
-        digest_articles = ranked_articles[:max_articles]
         
         # Send email
         logger.info(f"\n📧 Sending email digest to {EMAIL_CONFIG['recipient_email']}...")
