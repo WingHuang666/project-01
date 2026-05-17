@@ -7,9 +7,10 @@ Fetches news from multiple sources and sends a daily digest email
 import logging
 import sys
 from datetime import datetime
+import pytz
 from news_fetcher import NewsFetcher
 from email_sender import EmailSender
-from config import EMAIL_CONFIG
+from config import EMAIL_CONFIG, TIME_CONFIG
 
 logging.basicConfig(
     level=logging.INFO,
@@ -21,9 +22,13 @@ logger = logging.getLogger(__name__)
 def main():
     """Main entry point"""
     try:
+        # Get current time in US Eastern timezone
+        tz_eastern = pytz.timezone(TIME_CONFIG['timezone'])
+        current_time = datetime.now(tz_eastern).strftime('%Y-%m-%d %H:%M:%S %Z')
+        
         logger.info("=" * 60)
         logger.info("Starting Daily Tech News Aggregator")
-        logger.info(f"Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        logger.info(f"Time (US Eastern): {current_time}")
         logger.info("=" * 60)
         
         # Fetch news
