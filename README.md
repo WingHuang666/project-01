@@ -1,4 +1,4 @@
-# Daily Tech News Aggregator
+# Daily News Aggregator
 
 Automated daily news digest service that collects tech, AI, science, and business news from multiple sources and sends a curated email report.
 
@@ -152,4 +152,4 @@ For issues or questions, create a GitHub issue in this repository.
 
 ---
 
-**Made with ❤️ by GitHub Copilot**
+
