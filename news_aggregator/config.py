@@ -106,7 +106,7 @@ CATEGORIES = [
     'Science'
 ]
 
-# Email Configuration - 改成按类别分配文章数量
+# Email Configuration - 按类别分配文章数量
 EMAIL_CONFIG = {
     'sender_email': 'noreply@github.com',
     'sender_name': 'Daily Tech News Digest',
@@ -114,10 +114,10 @@ EMAIL_CONFIG = {
     'recipient_email': RECIPIENT_EMAIL,
     'max_articles': 10,
     'articles_per_category': {
-        'Technology': 3,
-        'Business & Economy': 3,
-        'Global Politics': 3,
-        'Science': 1  # 随意其他类型
+        'Technology': 3,           # 3篇技术新闻
+        'Business & Economy': 3,   # 3篇商业新闻
+        'Global Politics': 3,      # 3篇政治新闻
+        'Science': 1               # 1篇其他类型（科学新闻）
     }
 }
 
